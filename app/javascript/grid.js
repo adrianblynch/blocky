@@ -1,6 +1,7 @@
 export const COLOURS = ['red', 'green', 'blue', 'yellow'];
-const MAX_X = 10;
-const MAX_Y = 10;
+const HIDDEN_COLOUR = 'none';
+const MAX_X = 12;
+const MAX_Y = 12;
 
 export class Block {
     constructor (x, y) {
@@ -11,6 +12,7 @@ export class Block {
 }
 
 export class BlockGrid {
+
     constructor () {
         this.grid = [];
 
@@ -50,9 +52,93 @@ export class BlockGrid {
         return this;
     }
 
-    blockClicked (e, block) {
-        console.log(e, block);
+    clear (el = document.querySelector('#gridEl')) {
+        el.innerHTML = '';
     }
+
+    blockClicked (e, block) {
+
+        let blocks = this.getConnectedBlocks(block, [block])
+
+        this.removeFromGrid(blocks)
+        this.clear()
+        this.render()
+
+    }
+
+    removeFromGrid (blocks) {
+
+        blocks.forEach(b => {
+
+            let col = this.grid[b.x]
+
+            // Change the coords of higher blocks
+            col.forEach(block => {
+                if (block.y > b.y) {
+                    block.y--
+                }
+            })
+
+            let removedBlock = col.splice(b.y, 1).pop()
+
+            removedBlock.colour = HIDDEN_COLOUR
+            removedBlock.y = 9
+
+            // Place dummy block on the end
+            col.push(removedBlock)
+
+        })
+
+    }
+
+    getConnectedBlocks (block, blocks) {
+
+        let adjBlocks = this.getAdjancentBlocks(block)
+
+        for (let i = 0; i < adjBlocks.length; i++) {
+            let adjBlock = adjBlocks[i]
+            if (blocks.indexOf(adjBlock) === -1) {
+                blocks.push(adjBlock)
+                this.getConnectedBlocks(adjBlock, blocks)
+            }
+        }
+
+        return blocks
+
+    }
+
+    getAdjancentBlocks (block) {
+
+        // Get block above, below, to the left and right of `block`
+
+        let top, right, bottom, left;
+
+        top = this.grid[block.x][block.y + 1]
+        bottom = this.grid[block.x][block.y - 1]
+
+        if (block.x < MAX_X - 1) {
+            right = this.grid[block.x + 1][block.y]
+        }
+
+        if (block.x > 0) {
+            left = this.grid[block.x - 1][block.y]
+        }
+
+        // Return only blocks with the same colour as `block`
+        return [top, right, bottom, left].filter(b => b && b.colour === block.colour)
+
+    }
+
+    isGameOver () {
+        // Not used and maybe buggy
+        let blocksLeft = this.grid.reduce((count, col) =>
+            count += col.filter(block =>
+                block.colour !== HIDDEN_COLOUR
+            ).length
+        , 0)
+        return blocksLeft === 0
+    }
+
 }
 
 window.addEventListener('DOMContentLoaded', () => new BlockGrid().render());
