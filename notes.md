@@ -4,13 +4,13 @@ I started on the block-finding problem first, using a block's coords to look aro
 
 It's interesting that the coords are zeroed in the bottom left corner and not the browser's natural top left.
 
-The plan was then to take the blocks that make up the shape and remove them from the grid and then re-render. The trouble with this plan was that the rendering relies on the grid being "complete".
+The plan was then to take the blocks that make up the shape and remove them from the grid and then re-render. The trouble with this plan was that the rendering relies on the grid being _complete_.
 
 I then changed from removing the blocks from the grid to moving them to the top of their columns, changing their coords and colour, and then re-rendering.
 
-This made me think that the `render()` method could use a renderColumn() method to reduce DOM changes.
+This made me think that the `render()` method could use a `renderColumn()` method to reduce DOM changes.
 
-Whilst going through all this, it made me wonder about the structure of the game data. The blocks have awareness of their position, with their x and y attributes {x:1, y: 2, colour: 'blue'}, but their storage in a 2D array also gives them a position.
+Whilst going through all this, it made me wonder about the structure of the game data. The blocks have awareness of their position, with their x and y attributes `{x:1, y: 2, colour: 'blue'}`, but their storage in a 2D array also gives them a position.
 
 I think a refactoring of this would involve removing their x and y attributes and making the 2D array be the source of their position.
 
