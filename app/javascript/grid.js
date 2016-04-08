@@ -93,7 +93,7 @@ export class BlockGrid {
 
     getConnectedBlocks (block, blocks) {
 
-        let adjBlocks = this.getAdjancentBlocks(block)
+        let adjBlocks = this.getAdjacentBlocks(block)
 
         for (let i = 0; i < adjBlocks.length; i++) {
             let adjBlock = adjBlocks[i]
@@ -107,7 +107,7 @@ export class BlockGrid {
 
     }
 
-    getAdjancentBlocks (block) {
+    getAdjacentBlocks (block) {
 
         // Get block above, below, to the left and right of `block`
 

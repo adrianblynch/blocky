@@ -55,7 +55,7 @@ export default class Game {
 
     getConnectedCoords(coord, colour, coords) {
 
-        const adjCoords = this.getAdjancentCoords(coord, colour)
+        const adjCoords = this.getAdjacentCoords(coord, colour)
 
         for (let i = 0; i < adjCoords.length; i++) {
             let adjCoord = adjCoords[i]
@@ -78,7 +78,7 @@ export default class Game {
         return false
     }
 
-    getAdjancentCoords(coords, colour) {
+    getAdjacentCoords(coords, colour) {
 
         let top, right, bottom, left
         const x = coords[0], y = coords[1]
