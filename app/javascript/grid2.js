@@ -78,10 +78,10 @@ export default class Game {
         return false
     }
 
-    getAdjacentCoords(coords, colour) {
+    getAdjacentCoords(coord, colour) {
 
         let top, right, bottom, left
-        const x = coords[0], y = coords[1]
+        const x = coord[0], y = coord[1]
 
         if (y > 0) {
             top = [x, y - 1]
