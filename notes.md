@@ -12,7 +12,7 @@ Once the blocks are manipulated, I call `render()`. This has the downside of upd
 
 To optimise we could look at only updating single columns rather than all of the gird.
 
-I added a `clear()` mmethod to clear the DOM before rendering again. Using `document.querySelector('#gridEl').innerHTML = ''` I'd have to look into possible memory leaks.
+I added a `clear()` method to wipe the DOM before rendering again. Using `document.querySelector('#gridEl').innerHTML = ''` I'd have to look into possible memory leaks.
 
 ## There are bugs...
 
