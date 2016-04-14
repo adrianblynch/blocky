@@ -8,7 +8,7 @@ The plan was then to take the blocks that make up the shape and remove them from
 
 It was a little strange having to both move a block in its column array and update it's `x` and `y` attributes. I found out later why this is probably for the best.
 
-Once the blocks were manipulated, I call `render()`. This has the downside of updating the entire screen, but it does mean we don't have to selectively update bits of the DOM.
+Once the blocks are manipulated, I call `render()`. This has the downside of updating the entire screen, but it does mean we don't have to selectively update bits of the DOM.
 
 To optimise we could look at only updating single columns rather than all of the gird.
 
