@@ -1,7 +1,7 @@
 export const COLOURS = ['red', 'green', 'blue', 'yellow'];
-const HIDDEN_COLOUR = 'none';
-const MAX_X = 12;
-const MAX_Y = 12;
+const HIDDEN_COLOUR = 'black';
+const MAX_X = 10;
+const MAX_Y = 10;
 
 export class Block {
     constructor (x, y) {
@@ -44,7 +44,9 @@ export class BlockGrid {
                 blockEl.id = id;
                 blockEl.className = 'block';
                 blockEl.style.background = block.colour;
-                blockEl.addEventListener('click', (evt) => this.blockClicked(evt, block));
+                if (block.colour !== HIDDEN_COLOUR) {
+                    blockEl.addEventListener('click', (evt) => this.blockClicked(evt, block));
+                }
                 colEl.appendChild(blockEl);
             }
         }
@@ -58,35 +60,24 @@ export class BlockGrid {
 
     blockClicked (e, block) {
 
-        let blocks = this.getConnectedBlocks(block, [block])
+        let blocks = this.getConnectedBlocks(block, [block]);
 
-        this.removeFromGrid(blocks)
-        this.clear()
-        this.render()
+        blocks.forEach(block => block.colour = HIDDEN_COLOUR);
+
+        this.removeFromGrid(blocks);
+        this.clear();
+        this.render();
 
     }
 
     removeFromGrid (blocks) {
 
-        blocks.forEach(b => {
-
-            let col = this.grid[b.x]
-
-            // Change the coords of higher blocks
-            col.forEach(block => {
-                if (block.y > b.y) {
-                    block.y--
-                }
-            })
-
-            let removedBlock = col.splice(b.y, 1).pop()
-
-            removedBlock.colour = HIDDEN_COLOUR
-            removedBlock.y = 9
-
-            // Place dummy block on the end
-            col.push(removedBlock)
-
+        blocks.forEach(block => {
+            let col = this.grid[block.x];
+            let removedBlock = col.splice(block.y, 1).pop();
+            removedBlock.colour = HIDDEN_COLOUR;
+            col.push(removedBlock);
+            col.forEach((block, index) => block.y = index);
         })
 
     }
